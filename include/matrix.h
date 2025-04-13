@@ -15,10 +15,7 @@ namespace matrix {
       size_t cols;
 
     public:
-      /// @brief 
-      /// @param rows 
-      /// @param cols 
-      Matrix(size_t rows, size_t cols);
+      Matrix();
       /// @brief 
       /// @param rows 
       /// @param cols 
@@ -34,24 +31,35 @@ namespace matrix {
       /// @brief 
       /// @return 
       size_t getCols();
+
+      double& operator()(size_t row, size_t col);
+      double operator()(size_t row, size_t col) const;
+
+      std::vector<double> &operator[](size_t row);
+      const std::vector<double> &operator[](size_t row) const;
+
+      Matrix operator+(const Matrix& other) const;
+      Matrix operator*(const Matrix& other) const;
+
+      /// @brief 
+      /// @return 
+      Matrix transpose() const;
+      /// @brief 
+      /// @return 
+      double determinant() const;
       /// @brief 
       /// @param row 
       /// @param col 
       /// @return 
-      double getElement(size_t row, size_t col) const;
+      Matrix minor(size_t row, size_t col) const;
       /// @brief 
-      /// @param row 
-      /// @param col 
+      /// @param scalar 
       /// @return 
-      double& getElement(size_t row, size_t col);
+      Matrix toScalar(double scalar) const;
       /// @brief 
-      /// @param row 
-      /// @param col 
-      /// @param value 
-      void setElement(size_t row, size_t col, double value);
+      /// @return 
+      Matrix toDiagonalForm() const;
   };
-
-
 };
 
 // #endif
