@@ -1,3 +1,6 @@
+// #ifdef MATRIX_H
+// #define MATRIX_H
+
 #include <iostream>
 #include <vector>
 #include <stdexcept>
@@ -60,3 +63,5 @@ namespace matrix {
       void print() const;
   };
 };
+
+// #endif
