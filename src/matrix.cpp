@@ -67,30 +67,91 @@ namespace matrix {
 
   Matrix Matrix::operator+(const Matrix &other) const
   {
-    return Matrix();
+    if (rows != other.rows || cols != other.cols) {
+      throw std::invalid_argument("Matrix dimensions must match for addition.");
+    }
+
+    Matrix results(rows, cols);
+
+    for (size_t i = 0; i < rows; ++i) {
+      for(size_t j = 0; j < cols; ++j) {
+        results(i,j) = (*this)(i,j) + other(i,j);
+      }
+    }
+    return results;
   }
+
   Matrix Matrix::operator*(const Matrix &other) const
   {
-    return Matrix();
+    if (cols != other.rows) {
+      throw std::invalid_argument("Matrix dimensions must match for multiplication.");
+    }
+
+    Matrix result(rows, other.cols);
+    for (size_t i = 0; i < rows; ++i) {
+      for (size_t j = 0; j < other.cols; ++j) {
+        for (size_t k = 0; k < cols; ++k) {
+          result(i, j) += (*this)(i, k) * other(k, j);
+        }
+      }
+    }
+
+    return result;
   }
+
   Matrix Matrix::transpose() const
   {
-    return Matrix();
+    Matrix result(cols, rows);
+    for (size_t i = 0; i < rows; ++i) {
+      for (size_t j = 0; j < cols; ++j) {
+        result(j, i) = (*this)(i, j);
+      }
+    }
+    return result;
   }
+
   double Matrix::determinant() const
   {
-    return 0.0;
+    if (rows != cols) {
+      throw std::invalid_argument("Matrix must be square to calculate determinant.");
+    }
+
+    if (rows == 1) {
+      return data[0][0];
+    }
+
+    if (rows == 2) {
+      return data[0][0] * data[1][1] - data[0][1] * data[1][0];
+    }
+
+    double det = 0.0;
+    for (size_t j = 0; j < cols; ++j) {
+      det += (j % 2 == 0 ? 1 : -1) * data[0][j] * minor(0, j).determinant();
+    }
+    return det;
   }
+
   Matrix Matrix::minor(size_t row, size_t col) const
   {
     return Matrix();
   }
+
   Matrix Matrix::toScalar(double scalar) const
   {
     return Matrix();
   }
+
   Matrix Matrix::toDiagonalForm() const
   {
     return Matrix();
+  }
+
+  void Matrix::print() const {
+    for (const auto& row : data) {
+      for (const auto& elem : row) {
+        std::cout << elem << " ";
+      }
+      std::cout << std::endl;
+    }
   }
 }

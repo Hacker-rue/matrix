@@ -1,6 +1,3 @@
-// #ifdef MATRIX_H
-// #define MATRIX_H
-
 #include <iostream>
 #include <vector>
 #include <stdexcept>
@@ -59,7 +56,7 @@ namespace matrix {
       /// @brief 
       /// @return 
       Matrix toDiagonalForm() const;
+
+      void print() const;
   };
 };
-
-// #endif
