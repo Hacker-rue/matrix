@@ -133,12 +133,31 @@ namespace matrix {
 
   Matrix Matrix::minor(size_t row, size_t col) const
   {
-    return Matrix();
+    if (rows <= 1 || cols <= 1) {
+      throw std::invalid_argument("Matrix must be at least 2x2 to calculate minor.");
+    }
+
+    Matrix result(rows - 1, cols - 1);
+    for (size_t i = 0, r = 0; i < rows; ++i) {
+      if (i == row) continue;
+      for (size_t j = 0, c = 0; j < cols; ++j) {
+        if (j == col) continue;
+        result(r, c++) = (*this)(i, j);
+      }
+      ++r;
+    }
+    return result;
   }
 
   Matrix Matrix::toScalar(double scalar) const
   {
-    return Matrix();
+      Matrix result(rows, cols);
+      for (size_t i = 0; i < rows; ++i) {
+        for (size_t j = 0; j < cols; ++j) {
+          result(i, j) = (*this)(i, j) * scalar;
+        }
+      }
+      return result;
   }
 
   Matrix Matrix::toDiagonalForm() const
